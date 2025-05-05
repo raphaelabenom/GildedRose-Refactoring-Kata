@@ -9,7 +9,7 @@ namespace GildedRoseKata;
 
 public class GildedRose
 {
-    IList<Item> Items;
+    private IList<Item> Items;
 
     public GildedRose(IList<Item> Items)
     {
@@ -20,11 +20,11 @@ public class GildedRose
     {
         for (var i = 0; i < Items.Count; i++)
         {
-            UpdateQuality(Items[i]);
+      UpdateQuality(Items[i]);
         }
     }
 
-    private void UpdateQuality(Item item) {
+    private static void UpdateQuality(Item item) {
             if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert")
             {
                 // Se não for Aged Brie ou Backstage passes então executar essa condição
@@ -34,11 +34,11 @@ public class GildedRose
                 if (item.Quality > 0 && item.Name != "Sulfuras, Hand of Ragnaros")
                 {
                     // Diminui a qualidade em 1 para itens normais
-                    item.Quality = item.Quality - 1;
+                    item.Quality--;
                     // Para itens Conjured, diminui mais 1 (total de 2)
                     if (item.Name.Contains("Conjured") && item.Quality > 0)
                     {
-                        item.Quality = item.Quality - 1;
+                        item.Quality--;
                     }
                 }
             }
@@ -47,7 +47,7 @@ public class GildedRose
                 if (item.Quality < 50)
                 {
                     // Aumenta a qualidade em 1 para Aged Brie e Backstage passes
-                    item.Quality = item.Quality + 1;
+                    item.Quality++;
 
                     if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
                     {
@@ -59,7 +59,7 @@ public class GildedRose
                         {
                             if (item.Quality < 50)
                             {
-                                item.Quality = item.Quality + 1;
+                                item.Quality++;
                             }
                         }
 
@@ -67,7 +67,7 @@ public class GildedRose
                         {
                             if (item.Quality < 50)
                             {
-                                item.Quality = item.Quality + 1;
+                                item.Quality++;
                             }
                         }
                     }
@@ -76,39 +76,40 @@ public class GildedRose
 
             if (item.Name != "Sulfuras, Hand of Ragnaros")
             {
-                item.SellIn = item.SellIn - 1;
+                item.SellIn--;
             }
-
+            // Antes da data de venda expirar
             if (item.SellIn < 0)
             {
                 if (item.Name != "Aged Brie")
                 {
                     if (item.Name != "Backstage passes to a TAFKAL80ETC concert")
                     {
+                        // Depois da data de venda expirar
                         if (item.Quality > 0)
                         {
                             if (item.Name != "Sulfuras, Hand of Ragnaros")
                             {
                                 // Diminui a qualidade em 1 para itens normais após a data de venda
-                                item.Quality = item.Quality - 1;
+                                item.Quality--;
                                 // Para itens Conjured, diminui mais 1 (total de 2) após a data de venda
                                 if (item.Name.Contains("Conjured") && item.Quality > 0)
                                 {
-                                    item.Quality = item.Quality - 1;
+                                    item.Quality--;
                                 }
                             }
                         }
                     }
                     else
                     {
-                        item.Quality = item.Quality - item.Quality;
+                        item.Quality -= item.Quality;
                     }
                 }
                 else
                 {
                     if (item.Quality < 50)
                     {
-                        item.Quality = item.Quality + 1;
+                        item.Quality++;
                     }
                 }
             }

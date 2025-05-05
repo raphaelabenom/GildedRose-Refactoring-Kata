@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("GildedRose.UnitTests")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e4f031eedafb5c14222b9fe1e59da2a95ee978dc")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+98b84a18df9fc70df05bf8d1805020a8a923b4c8")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("GildedRose.UnitTests")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("GildedRose.UnitTests")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
