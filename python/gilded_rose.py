@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 
+AGED_BRIE = "Aged Brie"
+SULFURAS = "Sulfuras, Hand of Ragnaros"
+BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
+CONJURED = "Conjured"
+MAX_QUALITY = 50
+MIN_QUALITY = 0
+
+
 class GildedRose(object):
 
     def __init__(self, items):
@@ -7,33 +15,49 @@ class GildedRose(object):
 
     def update_quality(self):
         for item in self.items:
-            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
-                if item.quality > 0:
-                    if item.name != "Sulfuras, Hand of Ragnaros":
-                        item.quality = item.quality - 1
-            else:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-                    if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                        if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-            if item.name != "Sulfuras, Hand of Ragnaros":
-                item.sell_in = item.sell_in - 1
-            if item.sell_in < 0:
-                if item.name != "Aged Brie":
-                    if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                        if item.quality > 0:
-                            if item.name != "Sulfuras, Hand of Ragnaros":
-                                item.quality = item.quality - 1
-                    else:
-                        item.quality = item.quality - item.quality
-                else:
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
+            self._update_item(item)
+
+    def _update_item(self, item):
+        if item.name == SULFURAS:
+            return
+
+        if item.name == AGED_BRIE:
+            self._increase_quality(item, 1)
+        elif item.name == BACKSTAGE_PASSES:
+            self._update_backstage_pass_quality(item)
+        elif item.name.startswith(CONJURED):
+            self._decrease_quality(item, 2)
+        else:
+            self._decrease_quality(item, 1)
+
+        item.sell_in -= 1
+
+        if item.sell_in < 0:
+            self._apply_expired_quality(item)
+
+    def _update_backstage_pass_quality(self, item):
+        if item.sell_in <= 5:
+            self._increase_quality(item, 3)
+        elif item.sell_in <= 10:
+            self._increase_quality(item, 2)
+        else:
+            self._increase_quality(item, 1)
+
+    def _apply_expired_quality(self, item):
+        if item.name == AGED_BRIE:
+            self._increase_quality(item, 1)
+        elif item.name == BACKSTAGE_PASSES:
+            item.quality = MIN_QUALITY
+        elif item.name.startswith(CONJURED):
+            self._decrease_quality(item, 2)
+        else:
+            self._decrease_quality(item, 1)
+
+    def _increase_quality(self, item, amount):
+        item.quality = min(item.quality + amount, MAX_QUALITY)
+
+    def _decrease_quality(self, item, amount):
+        item.quality = max(item.quality - amount, MIN_QUALITY)
 
 
 class Item:
